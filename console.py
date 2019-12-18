@@ -39,25 +39,17 @@ class HBNBCommand(cmd.Cmd):
             NameError: when there is no object taht has the name
         """
         try:
-            if not line:
+            if line == "":
                 raise SyntaxError()
             my_list = line.split(" ")
             obj = eval("{}()".format(my_list[0]))
-            for par in range(1, len(my_list)):
-                if "=" not in my_list[par]:
+            for ele in my_list[1:]:
+                if '=' not in ele:
                     continue
-                kv = my_list[par].split("=")
-                if hasattr(obj, kv[0]):
-                    if is_int(kv[1]):
-                        setattr(obj, kv[0], int(kv[1]))
-                    elif is_float(kv[1]):
-                        setattr(obj, kv[0], float(kv[1]))
-                    elif kv[1].startswith('"') and kv[1].endswith('"'):
-                        if "_" in kv[1]:
-                            kv[1] = kv[1].replace("_", " ")
-                        setattr(obj, kv[0], kv[1][1:-1])
-                    else:
-                        continue
+                key, val = ele.split('=')
+                val = val.replace('_', ' ')
+                if hasattr(obj, key):
+                    setattr(obj, key, eval(val))
             obj.save()
             print("{}".format(obj.id))
         except SyntaxError:
