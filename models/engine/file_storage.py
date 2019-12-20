@@ -71,3 +71,11 @@ class FileStorage:
                 if k.split('.')[1] == obj.id:
                     del self.all()[k]
             self.save()
+
+    def close(self):
+        """call reload() method for deserializing the JSON file to objects"""
+        self.reload()
+
+    def reset(self):
+        """Reset all objects in __objects"""
+        self.__objects = {}
