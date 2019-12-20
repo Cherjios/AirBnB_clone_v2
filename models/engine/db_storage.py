@@ -1,69 +1,81 @@
 #!/usr/bin/python3
 
-from os import getenv
-from sqlalchemy import create_engine
+"""This is the db storage class for AirBnB"""
+
 from models.base_model import BaseModel, Base
-from sqlalchemy.orm import scoped_session, sessionmaker
-from models.state import State
 from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
-from models.amenity import Amenity
-import models
-
-
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, scoped_session
+import os
 
 class DBStorage:
+    """DB Storage class"""
 
     __engine = None
     __session = None
 
     def __init__(self):
-
-        user = getenv('HBNB_MYSQL_USER')
-        password = getenv('HBNB_MYSQL_PWD')
-        host = getenv('HBNB_MYSQL_HOST')
-        database = getenv('HBNB_MYSQL_DB')
-
-        self.__engine = create_engine(('mysql+mysqldb://{}:{}@{}/{}'.format(user, password, host, database)), pool_pre_ping=True)
-
-        if getenv(HBNB_ENV) == 'test':
+        """Constructor for DBStorage"""
+        username = os.getenv('HBNB_MYSQL_USER')
+        psw = os.getenv('HBNB_MYSQL_PWD')
+        host = os.getenv('HBNB_MYSQL_HOST')
+        db_name = os.getenv('HBNB_MYSQL_DB')
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}:3306/{}'
+                                      .format(username, psw, host, db_name),
+                                      pool_pre_ping=True)
+        if os.getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        dict = {}
-        if cls == None:
-            lineup = self.__session.query(User).all()
-            lineup += self.__session.query(State).all()
-            lineup += self.__session.query(City).all()
-            lineup += self.__session.query(Amenity).all()
-            lineup += self.__session.query(Place).all()
-            lineup += self.__session.query(Review).all()
+        """Retrieve all objects from database"""
+        _dict = {}
+        if cls is None:
+            objs = []
+            classes = ['User', 'State', 'City', 'Place', 'Review', 'Amenity']
+            for c in classes:
+                results = self.__session.query(eval(c))
+                for res in results:
+                    objs.append(res)
         else:
-            lineup = self.__session.query(eval(cls)).all()
-
-        for line in lineup:
-            line = type(obj).__name__ + '.' + obj.id
-            dict[line] = obj
-
-        return dict
+            objs = self.__session.query(cls).all()
+        for obj in objs:
+            key = type(obj).__name__ + "." + str(obj.id)
+            _dict[key] = obj
+        return _dict
 
     def new(self, obj):
-        if obj is not None:
+        """Add object to current database session"""
+        if obj:
             self.__session.add(obj)
 
     def save(self):
+        """Commit all changes of the database session"""
         self.__session.commit()
 
     def delete(self, obj=None):
-        if obj is not None:
+        """Delete from the current database session obj if not None"""
+        if obj:
             self.__session.delete(obj)
 
     def reload(self):
+        """Creates all tables in the database"""
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        Session = scoped_session(session_factory)
+        Session = scoped_session(sessionmaker(bind=self.__engine,
+                                              expire_on_commit=False))
         self.__session = Session()
 
-"""ARE WE NOW SUPPOSED TO CLOSE THE SESSION?"""
-"""IF YES, DO WE CREATE A SEPARATE METHOD OR ADD SELF.__SESSION.CLOSE() TO RELOAD? DELETE?"""
+    def close(self):
+        """call remove() method on the private session attribute
+        (self.__session"""
+        self.__session.close()
+
+    def reset(self):
+        """Reset session"""
+        self.__session.close()
+        Base.metadata.drop_all(self.__engine)
+        self.reload()
