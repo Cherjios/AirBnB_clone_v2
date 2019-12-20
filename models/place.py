@@ -18,7 +18,7 @@ place_amenity = Table('place_amenity', Base.metadata,
                              nullable=False))
 
 
-class Place(BaseModel):
+class Place(BaseModel, Base):
     """This is the class for Place
     Attributes:
         city_id: city id
@@ -49,15 +49,16 @@ number_rooms = Column(Integer, nullable=False, default=0)
 
 number_bathrooms = Column(Integer, nullable=False, default=0)
 
-max_guest = max_guest = Column(Integer, nullable=False, default=0)
+max_guest = Column(Integer, nullable=False, default=0)
 
-price_by_night = price_by_night = Column(Integer, nullable=False, default=0)
+price_by_night = Column(Integer, nullable=False, default=0)
 
 latitude = Column(Float, nullable=True)
 
 longitude = Column(Float, nullable=True)
 
 reviews = relationship("Review", backref="place", cascade="all, delete-orphan")
+
 amenity_ids = []
 
 if os.getenv('HBNB_TYPE_STORAGE') == 'file':

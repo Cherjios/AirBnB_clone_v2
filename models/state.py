@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """This is the state class"""
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-from os import getenv
-import models
+from sqlalchemy import Column, Integer, String
 from models.city import City
+import models
+import os
 
 
 class State(BaseModel, Base):
@@ -13,17 +13,20 @@ class State(BaseModel, Base):
     Attributes:
         name: input name
     """
-    __tablename__ = 'states'
-    name = Column(String(128), nullable=False)
-    cities = relationship("City", cascade="all, delete-orphan",
-                          backref="state")
+        __tablename__ = 'states'
 
-    if getenv('HBNB_TYPE_STORAGE') != 'db':
+    name = Column(String(128),
+                  nullable=False)
+
+    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+        cities = relationship("City", backref="state",
+                              cascade="all, delete-orphan")
+
+    if os.getenv('HBNB_TYPE_STORAGE') == 'fs':
         @property
         def cities(self):
-            city_list = []
-
-            for city in models.storage.all(City).values():
+            _list = []
+            for _id, city in models.storage.all(City).items():
                 if self.id == city.state_id:
-                    city_list.append(city)
-            return city_list
+                    _list.append(city)
+            return _list  
