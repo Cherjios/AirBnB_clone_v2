@@ -19,7 +19,8 @@ class State(BaseModel, Base):
                   nullable=False)
 
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-        cities = relationship("City", backref="state",
+        cities = relationship("City",
+                              backref="state",
                               cascade="all, delete-orphan")
 
     if os.getenv('HBNB_TYPE_STORAGE') == 'fs':
@@ -29,4 +30,4 @@ class State(BaseModel, Base):
             for _id, city in models.storage.all(City).items():
                 if self.id == city.state_id:
                     _list.append(city)
-            return _list  
+            return _list

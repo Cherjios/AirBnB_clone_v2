@@ -60,11 +60,12 @@ class FileStorage:
                 for key, value in (json.load(f)).items():
                     value = eval(value["__class__"])(**value)
                     self.__objects[key] = value
-        except FileNotFoundError:
+        except Exception:
             pass
 
     def delete(self, obj=None):
-        """Delete obj from __objects"""
+        """delete obj from __objects if it’s inside
+        """
         if obj:
             copy = dict(self.all())
             for k in copy.keys():
