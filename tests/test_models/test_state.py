@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """test for state"""
+
 import unittest
 import os
 from models.state import State
@@ -18,7 +19,7 @@ class TestState(unittest.TestCase):
 
     @classmethod
     def teardown(cls):
-        """at the end of the test this will tear it down"""
+        """at the end of the test this will delete the instances"""
         del cls.state
 
     def tearDown(self):
