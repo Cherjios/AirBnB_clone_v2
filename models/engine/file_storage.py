@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """This is the file storage class for AirBnB"""
+
 import json
 from models.base_model import BaseModel
 from models.user import User
@@ -17,6 +18,7 @@ class FileStorage:
         __file_path: path to the JSON file
         __objects: objects will be stored
     """
+
     __file_path = "file.json"
     __objects = {}
 
