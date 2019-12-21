@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """test for amenity"""
+
 import unittest
 import os
 from models.amenity import Amenity
@@ -18,7 +19,7 @@ class TestAmenity(unittest.TestCase):
 
     @classmethod
     def teardown(cls):
-        """at the end of the test this will tear it down"""
+        """at the end of the test this will delete the instances"""
         del cls.amenity
 
     def tearDown(self):
