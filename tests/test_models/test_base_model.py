@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """test for BaseModel"""
+
 import unittest
 import os
 from models.base_model import BaseModel
@@ -43,13 +44,13 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsNotNone(BaseModel.to_dict.__doc__)
 
     def test_method_BaseModel(self):
-        """chekcing if Basemodel have methods"""
+        """chekcing if Basemodel have all the methods"""
         self.assertTrue(hasattr(BaseModel, "__init__"))
         self.assertTrue(hasattr(BaseModel, "save"))
         self.assertTrue(hasattr(BaseModel, "to_dict"))
 
     def test_init_BaseModel(self):
-        """test if the base is an type BaseModel"""
+        """test if the base is a type BaseModel"""
         self.assertTrue(isinstance(self.base, BaseModel))
 
     def test_save_BaesModel(self):

@@ -82,4 +82,3 @@ class DBStorage:
         self.__session.close()
         Base.metadata.drop_all(self.__engine)
         self.reload()
-        

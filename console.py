@@ -96,6 +96,7 @@ class HBNBCommand(cmd.Cmd):
             IndexError: when there is no id given
             KeyError: when there is no valid id given
         """
+
         try:
             if not line:
                 raise SyntaxError()
@@ -125,6 +126,7 @@ class HBNBCommand(cmd.Cmd):
         Exceptions:
             NameError: when there is no object taht has the name
         """
+
         try:
             if line and line in self.all_classes:
                 objects = storage.all(eval(line))
@@ -152,6 +154,7 @@ class HBNBCommand(cmd.Cmd):
             AttributeError: when there is no attribute given
             ValueError: when there is no value given
         """
+
         try:
             if not line:
                 raise SyntaxError()
@@ -190,6 +193,7 @@ class HBNBCommand(cmd.Cmd):
     def count(self, line):
         """count the number of instances of a class
         """
+
         counter = 0
         try:
             my_list = split(line, " ")
@@ -211,6 +215,7 @@ class HBNBCommand(cmd.Cmd):
         Return:
             returns string of argumetns
         """
+
         new_list = []
         new_list.append(args[0])
         try:
@@ -231,6 +236,7 @@ class HBNBCommand(cmd.Cmd):
         """retrieve all instances of a class and
         retrieve the number of instances
         """
+
         my_list = line.split('.')
         if len(my_list) >= 2:
             if my_list[1] == "all()":
