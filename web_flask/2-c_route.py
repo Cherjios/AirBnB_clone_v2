@@ -19,10 +19,8 @@ def hello_2():
 
 
 @app.route('/c/<text>', strict_slashes=False)
-def hello_3(text):
-    s = 'C {}'.format(escape(text))
-    s = s.replace("_", " ")
-    return s
+def c_text(text):
+    return "C {}".format(text.replace("_", " "))
 
 
 if __name__ == "__main__":
