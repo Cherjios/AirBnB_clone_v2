@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 """
 script that starts a Flask web applicatio
-
 """
+
 
 from flask import Flask
 app = Fask(__name__)
+
 
 @app.router("/, strict_slashes=False")
 def hello_HBNB():
