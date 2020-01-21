@@ -5,10 +5,10 @@ script that starts a Flask web applicatio
 
 
 from flask import Flask
-app = Fask(__name__)
+app = Flask(__name__)
 
 
-@app.route("/, strict_slashes=False")
+@app.route("/", strict_slashes=False)
 def hello_HBNB():
     return "Hello HBNB!"
 
