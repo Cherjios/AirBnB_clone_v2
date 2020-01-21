@@ -8,7 +8,7 @@ from flask import Flask
 app = Fask(__name__)
 
 
-@app.router("/, strict_slashes=False")
+@app.route("/, strict_slashes=False")
 def hello_HBNB():
     return "Hello HBNB!"
 
