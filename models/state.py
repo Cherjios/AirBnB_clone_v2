@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String
 from models.city import City
 import models
-import os
+from os import getenv
 
 
 class State(BaseModel, Base):
@@ -15,20 +15,16 @@ class State(BaseModel, Base):
         name: input name
     """
     __tablename__ = 'states'
-
-    name = Column(String(128),
-                  nullable=False)
-
-    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+    name = Column(String(128), nullable=False)
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
         cities = relationship("City",
-                              backref="state",
-                              cascade="all, delete-orphan")
-
-    if os.getenv('HBNB_TYPE_STORAGE') == 'fs':
+                              cascade="all, delete-orphan",
+                              backref="state")
+    elif getenv('HBNB_TYPE_STORAGE') != 'db':
         @property
         def cities(self):
-            _list = []
-            for _id, city in models.storage.all(City).items():
+            l = []
+            for city in models.storage.all(City).values():
                 if self.id == city.state_id:
-                    _list.append(city)
-            return _list
+                    l.append(city)
+            return l
