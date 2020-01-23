@@ -3,7 +3,7 @@
 script that starts a Flask web applicatio
 """
 
-from flask import Fask, escape, render_template
+from flask import Flask, escape, render_template
 from models import storage
 from model.state import State
 
