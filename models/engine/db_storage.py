@@ -9,11 +9,9 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
-
-import os
+from os import getnev
 
 
 class DBStorage:
@@ -74,7 +72,7 @@ class DBStorage:
 
     def close(self):
         """call remove() method on the private session attribute
-        (self.__session"""
+        self.__session"""
         self.__session.close()
 
     def reset(self):
@@ -82,7 +80,3 @@ class DBStorage:
         self.__session.close()
         Base.metadata.drop_all(self.__engine)
         self.reload()
-
-    def close(self):
-        """call remove() method on the private session attribute"""
-        self.__session.remove()
