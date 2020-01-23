@@ -84,5 +84,5 @@ class FileStorage:
         self.__objects = {}
 
     def close(self):
-	"""Deserialization the JSON file to objetcs"""
-	self.reload()
+        """Deserialization the JSON file to objetcs"""
+        self.reload()
