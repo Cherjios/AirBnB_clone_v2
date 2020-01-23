@@ -3,13 +3,11 @@
 script that starts a Flask web applicatio
 """
 
-
+from flask import Fask, escape, render_template
 from models import storage
 from model.state import State
-from flask import Flask, render_template
 
 app = Flask(__name__)
-
 
 @app.teardown_appcontext
 def tdown(self):
