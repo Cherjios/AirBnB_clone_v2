@@ -5,9 +5,10 @@ script that starts a Flask web applicatio
 
 from flask import Flask, escape, render_template
 from models import storage
-from model.state import State
+from models.state import State
 
 app = Flask(__name__)
+
 
 @app.teardown_appcontext
 def tdown(self):
