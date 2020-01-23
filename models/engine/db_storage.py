@@ -11,7 +11,7 @@ from models.place import Place
 from models.review import Review
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
-from os import getnev
+from os import getenv
 
 
 class DBStorage:
