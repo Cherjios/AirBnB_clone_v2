@@ -82,7 +82,3 @@ class FileStorage:
     def reset(self):
         """Reset all objects in __objects"""
         self.__objects = {}
-
-    def close(self):
-        """Deserialization the JSON file to objetcs"""
-        self.reload()
